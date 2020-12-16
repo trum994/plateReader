@@ -1,16 +1,6 @@
 #!/bin/bash
 
-declare -A rowNum
-rowNum[A]=1
-rowNum[B]=2
-rowNum[C]=3
-rowNum[D]=4
-rowNum[E]=5
-rowNum[F]=6
-rowNum[G]=7
-rowNum[H]=8
-
-firstRow=3
+rows="ABCDEFGH"
 firstCol=2
 height=9
 
@@ -25,8 +15,8 @@ if [ $row == 'A' ] ; then
 else
 	actualCol=$col
 fi
-myRow=${rowNum[$row]}
-actualRow=$myRow
+
+actualRow=`echo $rows | awk -v x=$row '{print index($0,x)}'`
 #echo "Coordinate is $coord"
-#echo "Row is $row, rownum is ${rowNum[$row]}, actual row is $actualRow, Col is $col, actual col is $actualCol"
+#echo "Row is $row, actual row is $actualRow, Col is $col, actual col is $actualCol"
 sed '$d' $rawIn | awk 'NR>3' | awk -v a=$height -v b=$actualCol -v c=$actualRow 'NR%a==c {print $b}'
